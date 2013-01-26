@@ -50,8 +50,6 @@
     
     self.view.backgroundColor = [UIColor blackColor];
     [super viewDidLoad];
-    
-    [super viewDidLoad];
 }
 
 
