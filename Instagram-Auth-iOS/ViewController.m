@@ -40,7 +40,11 @@
 {
     if([INSTAGRAM_CLIENT_ID isEqualToString:@"YOUR CLIENT ID"])
     {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"You must specify your Instagram API credentials in Defines.h."] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        NSString *errorMsg = @"You must specify your Instagram API credentials in Defines.h.";
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:errorMsg
+                                                            delegate:nil cancelButtonTitle:@"OK"
+                                                            otherButtonTitles:nil];
         [alertView show];
         return;
     } else
@@ -58,20 +62,24 @@
 {
     if(!token)
     {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"Failed to request token."] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:@"Failed to request token."
+                                                            delegate:nil
+                                                            cancelButtonTitle:@"OK"
+                                                            otherButtonTitles:nil];
         [alertView show];
         return;
     }
     
     //As a test, we'll request a list of popular Instagram photos.
-    NSString *popularURLString = [NSString stringWithFormat:@"https://api.instagram.com/v1/media/popular?access_token=%@", token];
+    NSString *instagramBase = @"https://api.instagram.com/v1";
+    NSString *popularURLString = [NSString stringWithFormat:@"%@/media/popular?access_token=%@", instagramBase, token];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:popularURLString]];
     
     NSOperationQueue *theQ = [NSOperationQueue new];
     [NSURLConnection sendAsynchronousRequest:request queue:theQ
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                               
                                
                                NSError *err;
                                id val = [NSJSONSerialization JSONObjectWithData:data options:0 error:&err];
@@ -84,12 +92,20 @@
                                        
                                        if(!data)
                                        {
-                                           UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"Failed to request perform request."] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                                           UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                                               message:@"Failed to request perform request."
+                                                                                               delegate:nil
+                                                                                               cancelButtonTitle:@"OK"
+                                                                                               otherButtonTitles:nil];
                                            [alertView show];
                                        } else
                                        {
       
-                                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success" message:[NSString stringWithFormat:@"Successfully retrieved popular photos!"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
+                                                                                                   message:@"Successfully retrieved popular photos!"
+                                                                                                   delegate:nil
+                                                                                                   cancelButtonTitle:@"OK"
+                                                                                                   otherButtonTitles:nil];
                                                [alertView show];
                                           
                                        }
@@ -100,7 +116,7 @@
 
 -(void) checkInstagramAuth
 {
-    InstagramAuthController *instagramAuthController = [[InstagramAuthController alloc] init];
+    InstagramAuthController *instagramAuthController = [InstagramAuthController new];
     instagramAuthController.authDelegate = self;
     
     instagramAuthController.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -108,7 +124,7 @@
     
     [self presentViewController:instagramAuthController animated:YES completion:^{ } ];
     
-    __weak __block InstagramAuthController *weakAuthController = instagramAuthController;
+    __weak InstagramAuthController *weakAuthController = instagramAuthController;
     
     instagramAuthController.completionBlock = ^(void) {
         [weakAuthController dismissViewControllerAnimated:YES completion:nil];
