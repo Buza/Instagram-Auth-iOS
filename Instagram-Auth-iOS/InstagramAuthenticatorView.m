@@ -27,7 +27,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 
 #import "InstagramAuthenticatorView.h"
-
+#import "InstagramAuthDelegate.h"
 #import "NSDictionary+UrlEncoding.h"
 
 @interface InstagramAuthenticatorView()
@@ -152,12 +152,12 @@
         NSString *accesstoken = [jsonData objectForKey:@"access_token"];
         if(accesstoken)
         {
-            [self.authDelegate didAuth:accesstoken];
+            [self.authDelegate didAuthWithToken:accesstoken];
             return;
         }
     }
 
-    [self.authDelegate didAuth:nil];
+    [self.authDelegate didAuthWithToken:nil];
 }
 
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse

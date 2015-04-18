@@ -28,9 +28,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol InstagramAuthDelegate
--(void) didAuth:(NSString*)token;
-@end
+#import "InstagramAuthDelegate.h"
 
 @protocol FrameChangeDelegate
 -(void) frameChanged:(CGRect)frame;

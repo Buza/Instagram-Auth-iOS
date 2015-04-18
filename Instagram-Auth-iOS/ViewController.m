@@ -57,8 +57,9 @@
 }
 
 
-//This is our authentication delegate. When the user logs in, and Instagram sends us our auth token, we receive that here.
--(void) didAuth:(NSString*)token
+//This is our authentication delegate. When the user logs in, and
+// Instagram sends us our auth token, we receive that here.
+-(void) didAuthWithToken:(NSString*)token
 {
     if(!token)
     {

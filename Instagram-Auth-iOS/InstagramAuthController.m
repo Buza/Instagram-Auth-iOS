@@ -58,9 +58,9 @@
 {
 }
 
--(void) didAuth:(NSString*)token
+-(void) didAuthWithToken:(NSString*)token
 {
-    [self.authDelegate didAuth:token];
+    [self.authDelegate didAuthWithToken:token];
     self.completionBlock();
 }
 
